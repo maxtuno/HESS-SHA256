@@ -74,10 +74,6 @@ float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, st
     local = 0;
     for (auto i{0}; i < hash.size(); i++) {
         local += std::pow(hash[i] - hash_hex_str[i], 2);
-        if (local > global) {
-            break;
-
-        }
     }
     return local;
 }
@@ -110,7 +106,6 @@ void hess(std::string &hash, const float &n) {
                                 return;
                             }
                             std::cout << std::endl;
-
                         }
                     } else if (local > global) {
                         bit.assign(aux.begin(), aux.end());
