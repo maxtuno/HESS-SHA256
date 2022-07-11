@@ -16,11 +16,11 @@ By Oscar Riveros
 
 # Password 3KC
     hess-sha256.exe 5ee4a4acaa94bc1e489740a100a660fe336f47e061859a9a4c631eaaa887bc54 3
-    c 0 | 3 (s) | 3KC | 5ee4a4acaa94bc1e489740a100a660fe336f47e061859a9a4c631eaaa887bc54
+    c 0 | 7 (s) | 3KC | 5ee4a4acaa94bc1e489740a100a660fe336f47e061859a9a4c631eaaa887bc54
 
 # Password 3KC*
     hess-sha256.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4
-    c 0 | 104 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
+    c 0 | 56 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
 
 # Password 3KC*d
     hess-sha256.exe 70516e7d37d344e832d8f89040ae3ee3dc3a87a85905fb206f110f639f874918 5
