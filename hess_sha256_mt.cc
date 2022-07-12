@@ -49,12 +49,16 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
     return hash;
 }
 
-void step(int i, int j, int k, std::vector<unsigned char> &bit) {
+void step(int i, int j, int k, std::vector<unsigned char> &bit, bool randomized, std::default_random_engine &engine, std::uniform_int_distribution<unsigned char> &dist) {
     std::swap(bit[i], bit[j]);
-    bit[k] = (bit[k] + 1) % base;
+    if (randomized) {
+        bit[k] = dist(engine);
+    } else {
+        bit[k] = (bit[k] + 1) % base;
+    }
 }
 
-bool next_orbit(std::vector<unsigned char> &bit) {
+bool next_orbit(std::vector<unsigned char> &bit,  bool randomized, std::default_random_engine &engine, std::uniform_int_distribution<unsigned char> &dist) {
     integer key;
     for (auto i{0}; i < bit.size(); i++) {
         for (auto j{0}; j < bit.size(); j++) {
@@ -66,7 +70,7 @@ bool next_orbit(std::vector<unsigned char> &bit) {
                     mutex.unlock();
                     goto finally;
                 } else {
-                    step(i, j, k, bit);
+                    step(i, j, k, bit, randomized, engine, dist);
                 }
             }
         }
@@ -76,33 +80,33 @@ bool next_orbit(std::vector<unsigned char> &bit) {
     return true;
 }
 
-float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, std::string &hash_hex_str, const float &n) {
+int sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, std::string &hash_hex_str, const int &n) {
     hash_hex_str.clear();
     picosha2::hash256_hex_string(bit, hash_hex_str);
-    float local = 0;
+    int local = 0;
     for (auto i{0}; i < hash.size(); i++) {
         local += std::pow(hash[i] - hash_hex_str[i], 2);
     }
     return local;
 }
 
-void hess(std::string &hash, const float &n, const int id) {
-    auto cursor{std::numeric_limits<float>::max()}, global{std::numeric_limits<float>::max()}, local{std::numeric_limits<float>::max()};
+void hess(std::string &hash, const int &n, const int id, bool randomized) {
+    auto cursor{std::numeric_limits<int>::max()}, global{std::numeric_limits<int>::max()}, local{std::numeric_limits<int>::max()};
     std::string hash_hex_str;
     auto start = std::chrono::steady_clock::now();
     std::vector<unsigned char> bit(n, 0), aux;
     std::random_device device;
     std::default_random_engine engine(device());
     std::uniform_int_distribution<unsigned char> dist(0, base);
-    std::generate(bit.begin(), bit.end(), [&]() { return dist(engine); });
-    std::cout.precision(std::numeric_limits<float>::max_digits10 + 1);
-    while (next_orbit(bit)) {
+    std::generate(bit.begin(), bit.end() - (id % n), [&]() { return dist(engine); });
+    std::cout.precision(std::numeric_limits<int>::max_digits10 + 1);
+    while (next_orbit(bit, randomized, engine, dist)) {
         for (auto i{0}; i < n; i++) {
             for (auto j{0}; j < n; j++) {
                 auto local{0}, global{std::numeric_limits<int>::max()};
                 for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
-                    step(i, j, k, bit);
+                    step(i, j, k, bit,randomized, engine, dist);
                     local = sha256_oracle(bit, hash, hash_hex_str, n);
                     if (local < global) {
                         global = local;
@@ -139,11 +143,12 @@ int main(int argc, char *argv[]) {
     std::transform(hash.begin(), hash.end(), hash.begin(), ::tolower);
 
     auto nt = std::atoi(argv[3]);
+    bool randomized = std::atoi(argv[4]);
 
     std::vector<std::thread> th;
 
     for (auto i{0}; i < nt; i++) {
-        th.emplace_back([&] () { hess(hash, std::atoi(argv[2]), i); });
+        th.emplace_back([&] () { hess(hash, std::atoi(argv[2]), i, randomized); });
     }
 
     for (auto i{0}; i < nt; i++) {
