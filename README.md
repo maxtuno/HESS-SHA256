@@ -36,10 +36,11 @@ Tip: in case of unknown password length, use multiples, on multiples machines.
     c (4) 0 | 16 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
     
 
-# Password q_4$W
-    hess-sha256-mt-ascii.exe 27a1e050bf2734cfaaca70383cc2e35a3075af70947243c09e1e39390307c8f3 5 4
-    improving... 
+# Password @lgN6
+   hess-sha256-mt-ascii.exe b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e 5 4
+   c (4) 0 | 314 (s) | @lgN6 | b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e
     
+
 
 Thanks to:
 PicoSHA2 - a C++ SHA256 hash generator
