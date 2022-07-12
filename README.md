@@ -7,6 +7,7 @@ HESS with SHA256 (Canonical) Oracle
 By Oscar Riveros
 
 Usage:
+    
     hess-sha256-mt hash number_of_bytes_on_the_password 
     hess-sha256-mt hash number_of_bytes_on_the_password number_of_threads
 
