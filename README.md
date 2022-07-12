@@ -8,7 +8,7 @@ By Oscar Riveros
 
 Usage:
     
-    hess-sha256-mt hash number_of_bytes_on_the_password 
+    hess-sha256 hash number_of_bytes_on_the_password 
     hess-sha256-mt hash number_of_bytes_on_the_password number_of_threads
 
 Tip: in case of unknown password leng, use multiples, on multiples machines.
