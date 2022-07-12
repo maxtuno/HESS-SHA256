@@ -37,6 +37,7 @@ Tip: in case of unknown password leng, use multiples, on multiples machines.
     
 
 # Password q_4$W
+    hess-sha256-mt-ascii.exe 27a1e050bf2734cfaaca70383cc2e35a3075af70947243c09e1e39390307c8f3 5 4
     c (4) 0 | 29 (s) | q_4$W | 27a1e050bf2734cfaaca70383cc2e35a3075af70947243c09e1e39390307c8f3
     
 
