@@ -29,8 +29,11 @@ Tip: in case of unknown password leng, use multiples, on multiples machines.
     hess-sha256.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4
     c 0 | 56 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
     
-    hess-sha256-mt.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4 4
-    c (4) 0 | 4 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
+    hess-sha256-mt.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4 4 0
+    c (4) 0 | 6 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
+    
+    hess-sha256-mt.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4 4 1
+    c (3) 0 | 1 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
 
 # Password 3KC*d
     hess-sha256.exe 70516e7d37d344e832d8f89040ae3ee3dc3a87a85905fb206f110f639f874918 5
