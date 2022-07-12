@@ -37,8 +37,8 @@ Tip: in case of unknown password length, use multiples, on multiples machines.
     
 
 # Password @lgN6
-   hess-sha256-mt-ascii.exe b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e 5 4
-   c (4) 0 | 314 (s) | @lgN6 | b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e
+    hess-sha256-mt-ascii.exe b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e 5 4
+    c (4) 0 | 314 (s) | @lgN6 | b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e
     
 
 
