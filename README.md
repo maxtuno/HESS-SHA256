@@ -6,6 +6,12 @@ HESS with SHA256 (Canonical) Oracle
 
 By Oscar Riveros
 
+Usage:
+    hess-sha256-mt hash number_of_bytes_on_the_password 
+    hess-sha256-mt hash number_of_bytes_on_the_password number_of_threads
+
+Tip: in case of unknown password leng, use multiples, on multiples machines.
+
 # Password 3
     hess-sha256.exe 4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce 1
     c 0 | 0 (s) | 3 | 4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce
@@ -21,6 +27,9 @@ By Oscar Riveros
 # Password 3KC*
     hess-sha256.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4
     c 0 | 56 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
+    
+    hess-sha256_mt.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4 4
+    c (4) 0 | 4 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
 
 # Password 3KC*d
     hess-sha256.exe 70516e7d37d344e832d8f89040ae3ee3dc3a87a85905fb206f110f639f874918 5
