@@ -98,9 +98,7 @@ void hess(std::string &hash, const int &n, const int id) {
                 float local, global{std::numeric_limits<float>::max()};
                 for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
-                    mutex.lock();
                     step(i, j, k, bit);
-                    mutex.unlock();
                     local = sha256_oracle(bit, hash, hash_hex_str, n);
                     if (local < global) {
                         global = local;
