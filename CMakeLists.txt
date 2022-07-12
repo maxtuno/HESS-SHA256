@@ -10,4 +10,5 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-mtune=native -static")
 
 add_executable(hess-sha256 hess_sha256.cc)
+add_executable(hess-sha256_mt hess_sha256_mt.cc)
 
