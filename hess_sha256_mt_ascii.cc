@@ -93,8 +93,8 @@ void hess(std::string &hash, const int &n, const int id) {
     auto start = std::chrono::steady_clock::now();
     std::vector<unsigned char> bit(n, ' '), aux;
     while (next_orbit(bit)) {
-        for (auto i{0}; i < n - 1; i++) {
-            for (auto j{i + 1}; j < n; j++) {
+        for (auto i{0}; i < n; i++) {
+            for (auto j{0}; j < n; j++) {
                 float local, global{std::numeric_limits<float>::max()};
                 for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
