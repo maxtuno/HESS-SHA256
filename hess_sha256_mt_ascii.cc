@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 std::mutex mutex;
 
-int base = 126;
+int base = 127;
 
 typedef std::size_t integer;
 std::map<integer, bool> db;
