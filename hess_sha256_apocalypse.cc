@@ -49,7 +49,7 @@ void step(int i, int j, std::vector<unsigned char> &bit) {
     auto a = std::min(i, j);
     auto b = std::max(i, j);
     while (a < b) {
-        auto c = (a + b * bit.size()) % bit.size();
+        auto c = (a + b) / 2;
         bit[c] = 32 + (bit[c] + 1) % (base - 32);
         std::swap(bit[a], bit[b]);
         a++;
@@ -76,13 +76,13 @@ bool next_orbit(std::vector<unsigned char> &bit) {
     return false;
 }
 
-float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, std::string &hash_hex_str, const float &n, const float &global) {
+float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, std::string &hash_hex_str, const float &n, const float &cursor) {
     hash_hex_str.clear();
     picosha2::hash256_hex_string(bit, hash_hex_str);
     float local = 0;
     for (auto i{0}; i < hash.size(); i += std::log(hash.size())) { // PCP
         local += std::abs(hash[i] - hash_hex_str[i]);
-        if (local > global) {
+        if (local > cursor) {
             break;
         }
     }
