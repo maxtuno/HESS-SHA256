@@ -76,7 +76,7 @@ float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, st
     picosha2::hash256_hex_string(bit, hash_hex_str);
     float local = 0;
     for (auto i{0}; i < hash.size(); i += std::log(hash.size())) { // PCP
-        local += std::pow(hash[i] - hash_hex_str[i], 2);
+        local += std::pow((hash[i] - hash_hex_str[i]) / static_cast<float>(base), 2);
         if (local > cursor) {
             break;
         }
