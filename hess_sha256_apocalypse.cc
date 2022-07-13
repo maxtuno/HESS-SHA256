@@ -45,12 +45,11 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
     return hash;
 }
 
-void step(int i, int j, std::vector<unsigned char> &bit) {
+void step(int i, int j, int k, std::vector<unsigned char> &bit) {
+    bit[k] = 32 + (bit[k] + 1) % (base - 32);
     auto a = std::min(i, j);
     auto b = std::max(i, j);
     while (a < b) {
-        auto c = (a + b) / 2;
-        bit[c] = 32 + (bit[c] + 1) % (base - 32);
         std::swap(bit[a], bit[b]);
         a++;
         b--;
@@ -61,15 +60,17 @@ bool next_orbit(std::vector<unsigned char> &bit) {
     integer key;
     for (auto i{0}; i < bit.size(); i++) {
         for (auto j{0}; j < bit.size(); j++) {
-            key = hashing(bit);
-            mutex.lock();
-            if (db.find(key) == db.end()) {
-                db[key] = true;
-                mutex.unlock();
-                return true;
-            } else {
-                mutex.unlock();
-                step(i, j, bit);
+            for (auto k{0}; k < bit.size(); k++) {
+                key = hashing(bit);
+                mutex.lock();
+                if (db.find(key) == db.end()) {
+                    db[key] = true;
+                    mutex.unlock();
+                    return true;
+                } else {
+                    mutex.unlock();
+                    step(i, j, k, bit);
+                }
             }
         }
     }
@@ -95,29 +96,33 @@ void hess(std::string &hash, const int &n, const int id) {
     std::vector<unsigned char> bit(n, ' '), aux;
     auto cursor{std::numeric_limits<float>::max()};
     while (next_orbit(bit)) {
+        closure:
         for (auto i{0}; i < n; i++) {
             for (auto j{0}; j < n; j++) {
-                aux.assign(bit.begin(), bit.end());
-                step(i, j, bit);
-                auto local = sha256_oracle(bit, hash, hash_hex_str, n, cursor);
-                if (local < cursor) {
-                    cursor = local;
-                    auto end = std::chrono::steady_clock::now();
-                    mutex.lock();
-                    std::cout << "c (" << id << ") " << cursor << " | " << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << " (s)";
-                    if (cursor == 0) {
-                        std::cout << " | ";
-                        for (auto &item: bit) {
-                            std::cout << item;
+                for (auto k{0}; k < n; k++) {
+                    aux.assign(bit.begin(), bit.end());
+                    step(i, j, k, bit);
+                    auto local = sha256_oracle(bit, hash, hash_hex_str, n, cursor);
+                    if (local < cursor) {
+                        cursor = local;
+                        auto end = std::chrono::steady_clock::now();
+                        mutex.lock();
+                        std::cout << "c (" << id << ") " << cursor << " | " << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << " (s)";
+                        if (cursor == 0) {
+                            std::cout << " | ";
+                            for (auto &item: bit) {
+                                std::cout << item;
+                            }
+                            std::cout << " | " << hash_hex_str << std::endl;
+                            mutex.unlock();
+                            std::exit(EXIT_SUCCESS);
                         }
-                        std::cout << " | " << hash_hex_str << std::endl;
+                        std::cout << std::endl;
                         mutex.unlock();
-                        std::exit(EXIT_SUCCESS);
+                        goto closure;
+                    } else if (local > cursor) {
+                        bit.assign(aux.begin(), aux.end());
                     }
-                    std::cout << std::endl;
-                    mutex.unlock();
-                } else if (local > cursor) {
-                    bit.assign(aux.begin(), aux.end());
                 }
             }
         }
