@@ -18,6 +18,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -45,9 +46,14 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
     return hash;
 }
 
-void step(int i, int j, int k, std::vector<unsigned char> &bit) {
+void step_forward(int i, int j, int k, std::vector<unsigned char> &bit) {
     std::swap(bit[i], bit[j]);
-    bit[k] = 32 + (bit[k] + 1) % (base - 32);
+    bit[k] = 32 + std::abs(bit[k] + 1) % (base - 32);
+}
+
+void step_backward(int i, int j, int k, std::vector<unsigned char> &bit) {
+    bit[k] = 32 + std::abs(bit[k] - 1) % (base - 32);
+    std::swap(bit[i], bit[j]);
 }
 
 bool next_orbit(std::vector<unsigned char> &bit) {
@@ -63,7 +69,7 @@ bool next_orbit(std::vector<unsigned char> &bit) {
                     return true;
                 } else {
                     mutex.unlock();
-                    step(i, j, k, bit);
+                    step_forward(i, j, k, bit);
                 }
             }
         }
@@ -87,15 +93,13 @@ float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, st
 void hess(std::string &hash, const int &n, const int id) {
     std::string hash_hex_str;
     auto start = std::chrono::steady_clock::now();
-    std::vector<unsigned char> bit(n, ' '), aux;
+    std::vector<unsigned char> bit(n, ' ');
     auto cursor{std::numeric_limits<float>::max()};
     while (next_orbit(bit)) {
-        closure:
         for (auto i{0}; i < n; i++) {
             for (auto j{0}; j < n; j++) {
                 for (auto k{0}; k < n; k++) {
-                    aux.assign(bit.begin(), bit.end());
-                    step(i, j, k, bit);
+                    step_forward(i, j, k, bit);
                     auto local = sha256_oracle(bit, hash, hash_hex_str, n, cursor);
                     if (local < cursor) {
                         cursor = local;
@@ -113,9 +117,8 @@ void hess(std::string &hash, const int &n, const int id) {
                         }
                         std::cout << std::endl;
                         mutex.unlock();
-                        goto closure;
                     } else if (local > cursor) {
-                        bit.assign(aux.begin(), aux.end());
+                        step_backward(i, j, k, bit);
                     }
                 }
             }
