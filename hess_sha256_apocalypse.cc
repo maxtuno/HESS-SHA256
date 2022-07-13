@@ -49,8 +49,9 @@ void step(int i, int j, std::vector<unsigned char> &bit) {
     auto a = std::min(i, j);
     auto b = std::max(i, j);
     while (a < b) {
+        auto c = (a + b * bit.size()) % bit.size();
+        bit[c] = 32 + (bit[c] + 1) % (base - 32);
         std::swap(bit[a], bit[b]);
-        bit[(a + b) / 2] = 32 + (bit[(a + b) / 2] + 1) % (base - 32);
         a++;
         b--;
     }
@@ -94,7 +95,7 @@ void hess(std::string &hash, const int &n, const int id) {
     std::vector<unsigned char> bit(n, ' '), aux;
     auto cursor{std::numeric_limits<float>::max()};
     while (next_orbit(bit)) {
-        for (auto i{0}; i < n; i++) {
+        for (auto i{0}; i < n * n; i++) {
             for (auto j{0}; j < n; j++) {
                 float local, global{std::numeric_limits<float>::max()};
                     aux.assign(bit.begin(), bit.end());
