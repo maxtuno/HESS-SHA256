@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <mutex>
 #include <random>
 
-#include "picosha2.h"
+#include "picosha2.h" 
 
 std::mutex mutex;
 
@@ -46,8 +46,14 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
 }
 
 void step(int i, int j, int k, std::vector<unsigned char> &bit) {
-    std::swap(bit[i], bit[j]);
     bit[k] = 32 + (bit[k] + 1) % (base - 32);
+    auto a = std::min(i, j);
+    auto b = std::max(i, j);
+    while (a < b) {
+        std::swap(bit[a], bit[b]);
+        a++;
+        b--;
+    }
 }
 
 bool next_orbit(std::vector<unsigned char> &bit) {
@@ -61,7 +67,7 @@ bool next_orbit(std::vector<unsigned char> &bit) {
                     db[key] = true;
                     mutex.unlock();
                     return true;
-                 } else {
+                } else {
                     mutex.unlock();
                     step(i, j, k, bit);
                 }
