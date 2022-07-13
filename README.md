@@ -38,7 +38,9 @@ Tip: in case of unknown password length, use multiples, on multiples machines.
     hess-sha256-apocalypse.exe 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5 4 4
     c (4) 0 | 7 (s) | 3KC* | 7e1bec5ee860d362c9aa6c535d2ec3568c9d30f0f1a845e0595d860b90d98db5
     
-
+    c (4) 0 | 56 (s) | P=NP | 31398d00ac3ed0eed3cba2dff6198dbefc429833419f0eeb7260b633aeb228e6
+    hess-sha256-apocalypse.exe 31398d00ac3ed0eed3cba2dff6198dbefc429833419f0eeb7260b633aeb228e6 4
+    
 # Password @lgN6
     hess-sha256-mt-ascii.exe b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e 5 4
     c (4) 0 | 314 (s) | @lgN6 | b978f63d23ee6952233e54898a37a05ad519c9050f9f54eab79f94539125297e
