@@ -45,12 +45,12 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
     return hash;
 }
 
-void step(int i, int j, int k, std::vector<unsigned char> &bit) {
+void step(int i, int j, std::vector<unsigned char> &bit) {
     auto a = std::min(i, j);
     auto b = std::max(i, j);
     while (a < b) {
         std::swap(bit[a], bit[b]);
-        bit[k] = 32 + (bit[k] + 1) % (base - 32);
+        bit[(a + b) / 2] = 32 + (bit[(a + b) / 2] + 1) % (base - 32);
         a++;
         b--;
     }
@@ -58,9 +58,8 @@ void step(int i, int j, int k, std::vector<unsigned char> &bit) {
 
 bool next_orbit(std::vector<unsigned char> &bit) {
     integer key;
-    for (auto i{0}; i < bit.size() - 1; i++) {
-        for (auto j{i + 1}; j < bit.size(); j++) {
-            for (auto k{0}; k < bit.size(); k++) {
+    for (auto i{0}; i < bit.size(); i++) {
+        for (auto j{0}; j < bit.size(); j++) {
                 key = hashing(bit);
                 mutex.lock();
                 if (db.find(key) == db.end()) {
@@ -69,9 +68,8 @@ bool next_orbit(std::vector<unsigned char> &bit) {
                     return true;
                 } else {
                     mutex.unlock();
-                    step(i, j, k, bit);
+                    step(i, j, bit);
                 }
-            }
         }
     }
     return false;
@@ -96,12 +94,11 @@ void hess(std::string &hash, const int &n, const int id) {
     std::vector<unsigned char> bit(n, ' '), aux;
     auto cursor{std::numeric_limits<float>::max()};
     while (next_orbit(bit)) {
-        for (auto i{0}; i < n - 1; i++) {
-            for (auto j{i + 1}; j < n; j++) {
+        for (auto i{0}; i < n; i++) {
+            for (auto j{0}; j < n; j++) {
                 float local, global{std::numeric_limits<float>::max()};
-                for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
-                    step(i, j, k, bit);
+                    step(i, j,  bit);
                     local = sha256_oracle(bit, hash, hash_hex_str, n, global);
                     if (local < global) {
                         global = local;
@@ -125,7 +122,6 @@ void hess(std::string &hash, const int &n, const int id) {
                     } else if (local > global) {
                         bit.assign(aux.begin(), aux.end());
                     }
-                }
             }
         }
     }
