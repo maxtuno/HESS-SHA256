@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <mutex>
 #include <random>
 
-#include "picosha2.h" 
+#include "picosha2.h"
 
 std::mutex mutex;
 
@@ -46,11 +46,11 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
 }
 
 void step(int i, int j, int k, std::vector<unsigned char> &bit) {
-    bit[k] = 32 + (bit[k] + 1) % (base - 32);
     auto a = std::min(i, j);
     auto b = std::max(i, j);
     while (a < b) {
         std::swap(bit[a], bit[b]);
+        bit[k] = 32 + (bit[k] + 1) % (base - 32);
         a++;
         b--;
     }
@@ -81,7 +81,7 @@ float sha256_oracle(std::vector<unsigned char> &bit, const std::string &hash, st
     hash_hex_str.clear();
     picosha2::hash256_hex_string(bit, hash_hex_str);
     float local = 0;
-    for (auto i{0}; i < hash.size(); i++) { // PCP
+    for (auto i{0}; i < hash.size(); i += std::log(hash.size())) { // PCP
         local += std::abs(hash[i] - hash_hex_str[i]);
         if (local > global) {
             break;
