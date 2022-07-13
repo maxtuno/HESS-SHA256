@@ -10,7 +10,7 @@ Usage:
     
     hess-sha256 hash number_of_bytes_on_the_password 
     hess-sha256-mt hash number_of_bytes_on_the_password number_of_threads
-    hess-sha256-mt-ascii hash number_of_bytes_on_the_password number_of_threads (restricted to ascii + experimental)
+    hess-sha256-apocalypse hash number_of_bytes_on_the_password number_of_threads (restricted to ascii + experimental)
 
 Tip: in case of unknown password length, use multiples, on multiples machines.
 
