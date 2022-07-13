@@ -90,9 +90,9 @@ void hess(std::string &hash, const int &n, const int id) {
     std::vector<unsigned char> bit(n, ' '), aux;
     auto cursor{std::numeric_limits<float>::max()};
     while (next_orbit(bit)) {
-        float local, global{std::numeric_limits<float>::max()};
         for (auto i{0}; i < n; i++) {
             for (auto j{0}; j < n; j++) {
+                float local, global{std::numeric_limits<float>::max()};
                 for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
                     step(i, j, k, bit);
