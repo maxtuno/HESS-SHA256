@@ -60,7 +60,7 @@ bool next_orbit(std::vector<unsigned char> &bit) {
     integer key;
     for (auto i{0}; i < bit.size() - 1; i++) {
         for (auto j{i + 1}; j < bit.size(); j++) {
-            for (auto k{0}; k < (i + j) / 2; k++) {
+            for (auto k{0}; k < bit.size(); k++) {
                 key = hashing(bit);
                 mutex.lock();
                 if (db.find(key) == db.end()) {
@@ -99,7 +99,7 @@ void hess(std::string &hash, const int &n, const int id) {
         for (auto i{0}; i < n - 1; i++) {
             for (auto j{i + 1}; j < n; j++) {
                 float local, global{std::numeric_limits<float>::max()};
-                for (auto k{0}; k < (i + j) / 2; k++) {
+                for (auto k{0}; k < n; k++) {
                     aux.assign(bit.begin(), bit.end());
                     step(i, j, k, bit);
                     local = sha256_oracle(bit, hash, hash_hex_str, n, global);
