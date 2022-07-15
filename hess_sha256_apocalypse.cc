@@ -48,11 +48,11 @@ std::size_t hashing(const std::vector<unsigned char> &sequence) {
 
 void step_forward(int i, int j, int k, std::vector<unsigned char> &bit) {
     std::swap(bit[i], bit[j]);
-    bit[k] = 32 + std::abs(bit[k] + 1) % (base - 32);
+    bit[k] = 32 + std::abs(bit[k] + 1) % 95;
 }
 
 void step_backward(int i, int j, int k, std::vector<unsigned char> &bit) {
-    bit[k] = 32 + std::abs(bit[k] - 1) % (base - 32);
+    bit[k] = 32 + std::abs(bit[k] - 1) % 95;
     std::swap(bit[i], bit[j]);
 }
 
